@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Game;
-use App\Entity\Set;
+use App\Entity\Round;
 use App\Repository\CardRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/jeu")
+ */
 class GameController extends AbstractController
 {
     /**
@@ -36,7 +39,7 @@ class GameController extends AbstractController
         UserRepository $userRepository,
         CardRepository $cardRepository
     ): Response {
-        $user1 = $userRepository->find($request->request->get('user1'));
+        $user1 = $this->getUser();
         $user2 = $userRepository->find($request->request->get('user2'));
 
         if ($user1 !== $user2) {
@@ -47,7 +50,7 @@ class GameController extends AbstractController
 
             $entityManager->persist($game);
 
-            $set = new Set();
+            $set = new Round();
             $set->setGame($game);
             $set->setCreated(new \DateTime('now'));
             $set->setSetNumber(1);
@@ -105,8 +108,32 @@ class GameController extends AbstractController
             ]);
             $entityManager->persist($set);
             $entityManager->flush();
+
+            return $this->redirectToRoute('show_game', [
+                'game' => $game->getId()
+            ]);
         } else {
             return $this->redirectToRoute('new_game');
         }
+    }
+
+    /**
+     * @Route("/show-game/{game}", name="show_game")
+     */
+    public function showGame(
+        CardRepository $cardRepository,
+        Game $game
+    ): Response {
+        $cards = $cardRepository->findAll();
+        $tCards = [];
+        foreach ($cards as $card) {
+            $tCards[$card->getId()] = $card;
+        }
+
+        return $this->render('game/show_game.html.twig', [
+            'game' => $game,
+            'set' => $game->getRounds()[0],
+            'cards' => $tCards
+        ]);
     }
 }
