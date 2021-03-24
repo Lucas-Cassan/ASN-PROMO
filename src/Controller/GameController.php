@@ -12,9 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/jeu")
- */
 class GameController extends AbstractController
 {
     /**
@@ -57,8 +54,9 @@ class GameController extends AbstractController
 
             $cards = $cardRepository->findAll();
             $tCards = [];
-            foreach ($cards as $card) {
-                $tCards[$card->getId()] = $card;
+            foreach ($cards as $card ) {
+                    $tCards[$card->getId()] = $card;
+
             }
             shuffle($tCards);
             $carte = array_pop($tCards);
@@ -132,8 +130,9 @@ class GameController extends AbstractController
 
         return $this->render('game/show_game.html.twig', [
             'game' => $game,
-            'set' => $game->getRounds()[0],
+            'set' => $game->getSets()[0],
             'cards' => $tCards
         ]);
     }
 }
+

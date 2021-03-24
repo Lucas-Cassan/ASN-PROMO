@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\SetRepository;
+use App\Repository\RoundRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=SetRepository::class)
+ * @ORM\Entity(repositoryClass=RoundRepository::class)
  */
 class Round
 {
@@ -18,6 +18,11 @@ class Round
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity=game::class, inversedBy="sets")
+     */
+    private $game;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $created;
@@ -26,11 +31,6 @@ class Round
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $ended;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Game::class, inversedBy="sets")
-     */
-    private $game;
 
     /**
      * @ORM\Column(type="array")
@@ -87,6 +87,18 @@ class Round
         return $this->id;
     }
 
+    public function getGame(): ?game
+    {
+        return $this->game;
+    }
+
+    public function setGame(?game $game): self
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
     public function getCreated(): ?\DateTimeInterface
     {
         return $this->created;
@@ -107,18 +119,6 @@ class Round
     public function setEnded(?\DateTimeInterface $ended): self
     {
         $this->ended = $ended;
-
-        return $this;
-    }
-
-    public function getGame(): ?Game
-    {
-        return $this->game;
-    }
-
-    public function setGame(?Game $game): self
-    {
-        $this->game = $game;
 
         return $this;
     }

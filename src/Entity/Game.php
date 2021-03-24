@@ -21,13 +21,20 @@ class Game
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="games1")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user1;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="games2")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user2;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $winner;
 
     /**
      * @ORM\Column(type="datetime")
@@ -40,18 +47,13 @@ class Game
     private $ended;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="winners")
-     */
-    private $winner;
-
-    /**
      * @ORM\OneToMany(targetEntity=Round::class, mappedBy="game")
      */
-    private $rounds;
+    private $sets;
 
     public function __construct()
     {
-        $this->rounds = new ArrayCollection();
+        $this->sets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -59,26 +61,38 @@ class Game
         return $this->id;
     }
 
-    public function getUser1(): ?User
+    public function getUser1(): ?user
     {
         return $this->user1;
     }
 
-    public function setUser1(?User $user1): self
+    public function setUser1(?user $user1): self
     {
         $this->user1 = $user1;
 
         return $this;
     }
 
-    public function getUser2(): ?User
+    public function getUser2(): ?user
     {
         return $this->user2;
     }
 
-    public function setUser2(?User $user2): self
+    public function setUser2(?user $user2): self
     {
         $this->user2 = $user2;
+
+        return $this;
+    }
+
+    public function getWinner(): ?user
+    {
+        return $this->winner;
+    }
+
+    public function setWinner(?user $winner): self
+    {
+        $this->winner = $winner;
 
         return $this;
     }
@@ -107,42 +121,30 @@ class Game
         return $this;
     }
 
-    public function getWinner(): ?User
-    {
-        return $this->winner;
-    }
-
-    public function setWinner(?User $winner): self
-    {
-        $this->winner = $winner;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Round[]
      */
-    public function getRounds(): Collection
+    public function getSets(): Collection
     {
-        return $this->rounds;
+        return $this->sets;
     }
 
-    public function addRound(Round $round): self
+    public function addSet(Round $set): self
     {
-        if (!$this->rounds->contains($round)) {
-            $this->rounds[] = $round;
-            $round->setGame($this);
+        if (!$this->sets->contains($set)) {
+            $this->sets[] = $set;
+            $set->setGame($this);
         }
 
         return $this;
     }
 
-    public function removeRound(Round $round): self
+    public function removeSet(Round $set): self
     {
-        if ($this->rounds->removeElement($round)) {
+        if ($this->sets->removeElement($set)) {
             // set the owning side to null (unless already changed)
-            if ($round->getGame() === $this) {
-                $round->setGame(null);
+            if ($set->getGame() === $this) {
+                $set->setGame(null);
             }
         }
 

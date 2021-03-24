@@ -8,8 +8,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class UserController
+ * @package App\Controller*
  * @Route("/profil")
  */
+
 class UserController extends AbstractController
 {
     /**
@@ -17,8 +19,11 @@ class UserController extends AbstractController
      */
     public function index(): Response
     {
+        $user = $this->getUser();
+
+
         return $this->render('user/index.html.twig', [
-            'user' => $this->getUser(),
+            'user' => $user
         ]);
     }
 }

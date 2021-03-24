@@ -2,17 +2,11 @@
 
 {% block body %}
 
-    <style>
-        .carte{
-            width: 50px;
-        }
-    </style>
     <div class="row">
         <div class="col-8">
             Cartes de l'adversaire
             {% for card in set.user2HandCards %}
-                <img class="carte" src="{{ asset('cartes/'~cards[card].picture) }}.png">
-                <span>{{ cards[card].number }}</span>
+                <img style="width:50px" src="{{ asset('img/card/'~cards[card].picture) }}">{{ cards[card].number }}
             {% endfor %}
         </div>
         <div class="col-4">
@@ -31,7 +25,7 @@
     <div class="row">
         <div class="col-8">
             {% for card in set.user1HandCards %}
-                <img class="carte" src="{{ asset('cartes/'~cards[card].picture) }}.png">{{ cards[card].number }}
+                <img style="width:50px" src="{{ asset('img/card/'~cards[card].picture) }}">{{ cards[card].number }}
             {% endfor %}
         </div>
         <div class="col-4">

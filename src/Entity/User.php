@@ -10,7 +10,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`")
  */
 class User implements UserInterface
 {
@@ -38,12 +37,12 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=255)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=255)
      */
     private $lastname;
 
@@ -63,15 +62,20 @@ class User implements UserInterface
     private $games2;
 
     /**
-     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="winner")
+     * @ORM\Column(type="string", length=255)
      */
-    private $winners;
+    private $avatar;
+
+	/**
+	 * @ORM\OneToOne(targetEntity=Stats::class,  cascade={"persist", "remove"})
+	 * * @ORM\JoinColumn(nullable=true)
+	 */
+	private $stats;
 
     public function __construct()
     {
         $this->games1 = new ArrayCollection();
         $this->games2 = new ArrayCollection();
-        $this->winners = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -83,6 +87,7 @@ class User implements UserInterface
     {
         return $this->email;
     }
+
 
     public function setEmail(string $email): self
     {
@@ -155,26 +160,33 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function getFisrtName(): ?string
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
 
-    public function setFirstNale(string $firstname): self
+    public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
 
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getLastname(): ?string
     {
         return $this->lastname;
     }
 
-    public function setLastName(string $lastname): self
+    public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
 
         return $this;
     }
@@ -251,38 +263,30 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Game[]
-     */
-    public function getWinners(): Collection
-    {
-        return $this->winners;
-    }
-
-    public function addWinner(Game $winner): self
-    {
-        if (!$this->winners->contains($winner)) {
-            $this->winners[] = $winner;
-            $winner->setWinner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWinner(Game $winner): self
-    {
-        if ($this->winners->removeElement($winner)) {
-            // set the owning side to null (unless already changed)
-            if ($winner->getWinner() === $this) {
-                $winner->setWinner(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function display()
     {
         return $this->firstname.' '.$this->lastname;
     }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getStats(): ?Stats
+    {
+        return $this->stats;
+    }
+
+	public function setStats($stats): void
+	{
+		$this->stats = $stats;
+	}
 }
