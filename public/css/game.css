@@ -1,0 +1,305 @@
+#overlay {
+    position: fixed; /* Sit on top of the page content */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 100; /* Specify a stack order in case you're using a different order for other elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#plateau{
+    height: 100vh;
+    width: auto;
+    padding: 0 60px 0 0;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 20% 50% 30%;
+    grid-template-columns: 100%;
+}
+#plateau .card{
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 0 1%;
+    width: 100%;
+    height: auto;
+    transition: all .3s ease-in-out;
+}
+.labelCard{
+    margin: 0 1%;
+    width: 12%;
+    height: auto;
+}
+#plateau .cardY:hover{
+    transform: perspective(600px) rotateX(-15deg);
+    box-shadow: 0px 0px 10px 0px #000000;
+}
+#plateau .cardY.select{
+    animation: cardSelect 2s infinite ease-in-out;
+    box-shadow: 0px 0px 10px 0px #000000;
+    cursor: pointer;
+    filter: grayscale(80%);
+}
+#plateau .cardY.select:hover{
+    transform: perspective(0) rotateX(0);
+    filter: grayscale(0%);
+    animation: none;
+}
+#plateau input:checked + label img{
+    transform: translateY(-10%)perspective(0) rotateX(0)!important;
+    filter: grayscale(0%)!important;
+    animation: none!important;
+}
+@keyframes cardSelect{
+    0% {
+        transform: translateY(0) translate(0);
+    }
+    25% {
+        transform: translateY(1px) translateX(1px) translate(-1px);
+    }
+    50% {
+        transform: translateY(-1px) translateX(-1px) translate(1px);
+    }
+    75% {
+        transform: translateY(1px) translateX(1px) translate(-1px);
+    }
+    100% {
+        transform: translateY(0) translate(0);
+    }
+
+}
+#adversaire #mainA .card{
+     transform: rotateZ(180deg);
+ }
+#plateau .cardA:hover{
+    animation: cardA .3s infinite ease-in-out;
+}
+@keyframes cardA{
+    0% {
+        transform: rotateZ(180deg) translate(0);
+    }
+    33% {
+        transform: rotateZ(180deg) translateY(2px) translate(-2px);
+    }
+    66% {
+        transform: rotateZ(180deg) translateY(2px) translate(2px);
+    }
+    99% {
+        transform: rotateZ(180deg) translateY(2px) translate(-2px);
+    }
+}
+#plateau #carteTable .card:hover{
+    box-shadow: 0px 0px 5px 0px #000000;
+}
+
+#plateau .divAction{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+
+    height: 80%;
+    width: 80%;
+    padding: 10%;
+    display: grid;
+    grid-template-columns: 47.5% 47.5%;
+    grid-template-rows: 47.5% 47.5%;
+    gap: 5%;
+}
+#plateau .divAction #secretY, #plateau .divAction #secretA{
+    grid-column-start: 1;
+    grid-row-start: 1;
+    grid-column-end: 2;
+    grid-row-end: 2;
+}
+#plateau .divAction #depotY, #plateau .divAction #depotA{
+    grid-column-start: 2;
+    grid-row-start: 1;
+    grid-column-end: 3;
+    grid-row-end: 2;
+}
+#plateau .divAction .action{
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    transition: all .3s ease-in-out;
+    outline: none;
+}
+#plateau #you .divAction .action{
+    cursor: pointer;
+}
+#plateau #you .divAction .action:hover{
+    transform: scale(1.1);
+}
+#plateau .divAction .action img{
+    border: 3px solid #E49190;
+    border-radius: 15%;
+}
+#plateau .action span{
+    display: none;
+}
+#plateau .main{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+
+#adversaire{
+    grid-row-start: 1;
+    grid-row-end: 2;
+    display: grid;
+    grid-template-columns: 20% 80%;
+    grid-template-rows: 100%;
+    background-color: #FAC785;
+    position: relative;
+}
+#adversaire #mainA{
+    position: absolute;
+    top: -30%;
+}
+
+#table{
+    grid-row-start: 2;
+    grid-row-end: 3;
+    display: grid;
+    grid-template-columns: 20% 80%;
+    grid-template-rows: 100%;
+}
+#pioche{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#pioche #cardPioche{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#pioche #cardPioche img{
+    cursor: pointer;
+    position: absolute;
+    width: 50%;
+    transition: all .3s ease-in-out;
+}
+#pioche #cardPioche .cardPiocheOther{
+    z-index: 10;
+}
+
+
+#carteTable{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#you{
+    background-color: #FAC785;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    display: grid;
+    grid-template-columns: 20% 80%;
+}
+#infoJ{
+    position: absolute;
+    bottom: 0;
+    z-index: 50;
+    font-family: "caviar", sans-serif;
+    font-size: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+
+    padding-bottom: 5%;
+}
+#infoJ2{
+    position: absolute;
+    bottom: 0;
+    z-index: 50;
+    font-family: "caviar", sans-serif;
+    font-size: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: auto;
+    padding-bottom: 2%;
+}
+#time{
+    min-width: 70%;
+    font-size: 1em;
+    text-decoration: none;
+    color: #242424;
+    font-family: "milky nice", sans-serif;
+    margin: 0 10px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: all 0.15s ease-in-out;
+    background-color: #FEEED5;
+    border: 3px solid #ECDDC6;
+    text-align: center;
+}
+#timeA{
+    width: auto;
+    font-size: 1em;
+    text-decoration: none;
+    color: #242424;
+    font-family: "milky nice", sans-serif;
+    margin: 0 10px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: all 0.15s ease-in-out;
+    background-color: #FEEED5;
+    border: 3px solid #ECDDC6;
+    text-align: center;
+}
+#finDeTour:hover, #valider:hover{
+    background-color: #E49190;
+    border: 3px solid #F79B98;
+}
+#valider{
+    outline: none;
+    position: absolute;
+    bottom: 1%;
+    left: 0;
+    z-index: 50;
+    width: 15%;
+    font-size: 1em;
+    text-decoration: none;
+    color: #242424;
+    font-family: "milky nice", sans-serif;
+    margin: 10px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: all 0.15s ease-in-out;
+    background-color: #F79B98;
+    border: 3px solid #E49190;
+    cursor: pointer;
+}
+
