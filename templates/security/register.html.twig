@@ -1,41 +1,85 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}MAMYSTÉRIK - INSCRIPTION{% endblock %}
+
+ {% block stylesheets %}
+     <link href="{{ asset('css/form.css') }}" rel="stylesheet" type="text/css"> <!-- LINK CSS FORM -->
+ {% endblock %}
 
 {% block body %}
 
-    {{ form_start (form,{'action': path('app_register')}) }}
+    {{ form_start (form,{ 'attr': {'id': 'formInscription'} }, {'action': path('app_register')}) }}
+    <img class="imgForm mamie2" src="{{ asset('img/items/mamie1.svg') }}" alt="Mamie 1">
+    <img class="imgForm mamie1" src="{{ asset('img/items/mamie2.svg') }}" alt="Mamie 2">
 
-    <div>
-        {{  form_label(form.email)}}
-        {{  form_widget(form.email)}}
+    <div id="part1" class="formPart">
+        <div class="input">
+            {{  form_label(form.firstname,'Prénom' )}}
+            {{ form_widget(form.firstname, {'attr': {'class': 'inputForm'}} )}}
+        </div>
+        <div class="input">
+            {{  form_label(form.lastname,'Nom' )}}
+            {{  form_widget(form.lastname, {'attr': {'class': 'inputForm'}} )}}
+        </div>
+        <div class="inputDate">
+            {{  form_label(form.birthday,'Date de naissance' )}}
+            {{ form_widget(form.birthday.day,   {'attr':{'placeholder':'Jour' } })}}
+            {{ form_widget(form.birthday.month, {'attr':{'placeholder':'Mois' } })}}
+            {{ form_widget(form.birthday.year,  {'attr':{'placeholder':'Année' } })}}
+        </div>
+        <button id="btnPart1" class="btn">Suivant</button>
     </div>
-    <div>
-        {{  form_label(form.firstname,'Prénom' )}}
-        {{ form_widget(form.firstname )}}
-    </div>
-    <div>
-        {{  form_label(form.lastname,'Nom' )}}
-        {{  form_widget(form.lastname )}}
-    </div>
-    <div>
-        {{  form_label(form.birthday,'Date de naissance' )}}
-        {{ form_widget(form.birthday.day,   {'attr':{'placeholder':'Jour' } })}}
-        {{ form_widget(form.birthday.month, {'attr':{'placeholder':'Mois' } })}}
-        {{ form_widget(form.birthday.year,  {'attr':{'placeholder':'Année' } })}}
-    </div>
-    <div>
-        {{  form_widget(form.password,{'type': 'password'} )}}
+    <div id="part2" class="formPart">
+        <div class="input">
+            {{  form_label(form.email)}}
+            {{  form_widget(form.email, {'attr': {'class': 'inputForm'}} )}}
+        </div>
+        <div class="inputPsw">
+            {{  form_widget(form.password,{'type': 'password'} )}}
+        </div>
+        <button id="btnPart2Back" class="btn btnBack">Retour</button>
+        <button id="btnPart2" class="btn">Suivant</button>
     </div>
 
-    {{  form_widget(form.captcha )}}
+    <div id="part3" class="formPart">
+        <div class="input captcha">
+            {{  form_widget(form.captcha )}}
+        </div>
 
-    <div >
-        <input type="checkbox" name="conditions" required>
-        <label for="conditions"><p>J'ai lu et j'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#"> politique de confidentialité</a>.</p></label>
+        <div class="rgpd">
+            <input type="checkbox" name="conditions" required>
+            <label for="conditions"><p>J'ai lu et j'accepte les <a class="link" href="#">conditions d'utilisation</a> et la <a class="link" href="#"> politique de confidentialité</a>.</p></label>
+        </div>
+
+        <button id="btnPart3Back" class="btn btnBack">Retour</button>
+        <button class="btn submit" type="submit">S'inscrire</button>
     </div>
 
-    <button type="submit">S'inscrire</button>
+    <script>
+
+        $('#btnPart1').click(function(e) {
+            e.preventDefault();
+            $('#part1').fadeOut();
+            $('#part2').css('display', 'flex').fadeIn();
+        })
+        $('#btnPart2Back').click(function(e) {
+            e.preventDefault();
+            $('#part1').fadeIn();
+            $('#part2').fadeOut();
+        })
+        $('#btnPart2').click(function(e) {
+            e.preventDefault();
+            $('#part2').fadeOut();
+            $('#part3').css('display', 'flex').fadeIn();
+        })
+        $('#btnPart3Back').click(function(e) {
+            e.preventDefault();
+            $('#part2').fadeIn();
+            $('#part3').fadeOut();
+        })
+    </script>
+
+
     {{ form_errors(form) }}
     {{ form_end(form) }}
 {% endblock %}

@@ -22,12 +22,17 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('JeuS4');
+            ->setTitle('MamyStérik - Back');
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
-    }
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', UserCrudController::getEntityFqcn());
+		yield MenuItem::linkToCrud('Statistiques utilisateurs', 'fas fa-chart-bar', StatsCrudController::getEntityFqcn());
+		yield MenuItem::linkToCrud('Cartes', 'fas fa-puzzle-piece', CardCrudController::getEntityFqcn());
+		yield MenuItem::linkToCrud('Parties', 'fas fa-gamepad', GameCrudController::getEntityFqcn());
+
+
+	}
 }

@@ -15,6 +15,7 @@ body {
     width: 100vw;
     min-height: 100vh;
     overflow-x: hidden;
+    color: #600834;
 }
 .glacageShadow {
     fill: #E49190;

@@ -1,0 +1,93 @@
+<div id="adversaire">
+    <div class="main" id="mainA">
+        {% for card in adversaire.handCards %}
+            <label for="" class="labelCard"><img class="card cardA" src="{{ asset('img/cartes/dos.png') }}"></label>
+        {% endfor %}
+    </div>
+    <div class="divAction" id="actionA">
+        {% if adversaire.actions['SECRET']==false %}
+            <button class="action" id="secretA"><img src="{{ asset('img/jetons/secret.svg') }}" alt="Action Secret"><span>Secret</span></button>
+        {% else %}
+            <button class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/secret.svg') }}" alt="Action Secret"><span>Secret</span></button>
+        {% endif %}
+
+        {% if adversaire.actions['DEPOT']==false %}
+            <button  class="action" id="depotA"><img src="{{ asset('img/jetons/depot.svg') }}" alt="Action Depot"><span>Dépôt</span></button>
+        {% else %}
+            <button class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/secret.svg') }}" alt="Action Secret"><span>Secret</span></button>
+        {% endif %}
+
+        {% if adversaire.actions['OFFRE']==false %}
+            <button  class="action" id="offreA"><img src="{{ asset('img/jetons/offre.svg') }}" alt="Action Offre"><span>Offre</span></button>
+        {% else %}
+            <button class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/secret.svg') }}" alt="Action Secret"><span>Secret</span></button>
+        {% endif %}
+
+        {% if adversaire.actions['ECHANGE']==false %}
+            <button  class="action" id="echangeA"><img src="{{ asset('img/jetons/echange.svg') }}" alt="Action Echange"><span>Échange</span></button>
+        {% else %}
+            <button class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/secret.svg') }}" alt="Action Secret"><span>Secret</span></button>
+        {% endif %}
+    </div>
+</div>
+
+<div id="table">
+    <div id="pioche">
+        <div id="cardPioche">
+            <img class="cardPiocheOther" src="{{ asset('img/cartes/dos.png') }}" alt="carte dos">
+            <img class="cardPiocheOther1" src="{{ asset('img/cartes/dos.png') }}" alt="carte dos">
+            <img class="cardPiocheOther2" src="{{ asset('img/cartes/dos.png') }}" alt="carte dos">
+        </div>
+        <div id="infoJ">
+
+        </div>
+
+    </div>
+    <div id="carteTable">
+        <img class="card" src="{{ asset('img/cartes/religieuse.png') }}" alt="religieuse">
+        <img class="card" src="{{ asset('img/cartes/cupcake.png') }}" alt="cupcake">
+        <img class="card" src="{{ asset('img/cartes/babaRhum.png') }}" alt="babaRhum">
+        <img class="card" src="{{ asset('img/cartes/carrotCake.png') }}" alt="carrotCake">
+        <img class="card" src="{{ asset('img/cartes/rainbowCake.png') }}" alt="rainbowCake">
+        <img class="card" src="{{ asset('img/cartes/tarteCitron.png') }}" alt="tarteCitron">
+        <img class="card" src="{{ asset('img/cartes/pieceMontee.png') }}" alt="pieceMontee">
+        <div id="infoJ2"></div>
+        <button id="valider" style="display: none">Valider action</button>
+    </div>
+
+</div>
+
+<div id="you">
+    <div class="main" id="mainY">
+        {% for card in moi.handCards %}
+            <input type="checkbox" name="carte_secret" id="carte{{ card }}" value="{{ card }}" style="display: none" class="choixSecret">
+            <label for="carte{{ card }}" class="labelCard"><img class="card cardY" src="{{ asset('img/cartes/'~cards[card].picture) }}.png"></label>
+        {% endfor %}
+    </div>
+
+    <div class="divAction" id="actionY">
+        {% if moi.actions['SECRET']==false %}
+            <button class="action" id="secretY"><img src="{{ asset('img/jetons/secret.svg') }}" alt="Action Secret"><span>Secret</span></button>
+        {% else %}
+            <button class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/secret.svg') }}" alt="Action Secret"><span>Secret</span></button>
+        {% endif %}
+
+        {% if moi.actions['DEPOT']==false %}
+            <button  class="action" id="depotY"><img src="{{ asset('img/jetons/depot.svg') }}" alt="Action Depot"><span>Dépôt</span></button>
+        {% else %}
+            <button  class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/depot.svg') }}" alt="Action Depot"><span>Dépôt</span></button>
+        {% endif %}
+
+        {% if moi.actions['OFFRE']==false %}
+            <button  class="action" id="offreY"><img src="{{ asset('img/jetons/offre.svg') }}" alt="Action Offre"><span>Offre</span></button>
+        {% else %}
+            <button  class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/offre.svg') }}" alt="Action Offre"><span>Offre</span></button>
+        {% endif %}
+
+        {% if moi.actions['ECHANGE']==false %}
+            <button  class="action" id="echangeY"><img src="{{ asset('img/jetons/echange.svg') }}" alt="Action Echange"><span>Échange</span></button>
+        {% else %}
+            <button  class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/echange.svg') }}" alt="Action Echange"><span>Échange</span></button>
+        {% endif %}
+    </div>
+</div>

@@ -1,13 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}MAMYSTÉRIK - PROFIL{% endblock %}
 
 {% block body %}
     <div id="profil_content">
         <h1>Bonjour {{ user.firstName }}</h1>
+        <p>{{ user.lastName }}, {{ user.email }}, </p>
         <img id="avatar" src="{{ asset('img/avatar/'~user.avatar) }}">
         <a href="{{ path('app_modify') }}"/>Modifier le profil</div>
     </div>
+
+    <section id="profil">
+
+    </section>
 
 {% endblock %}
 

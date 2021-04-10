@@ -1,43 +1,237 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}MAMYSTÉRIK - GAME{% endblock %}
+
+ {% block stylesheets %}
+     <link href="{{ asset('css/game.css') }}" rel="stylesheet" type="text/css"> <!-- LINK CSS GAME -->
+ {% endblock %}
+
+{% block header %}
+    <header id="headerGame">
+        <nav>
+            <ul>
+                <li tabindex="1"><a class="accueil" href="{{ path('default') }}"><i class="fas fa-home"></i></a></li>
+                <li tabindex="2"><a class="jeu" href="{{ path('new_game') }}"><i class="fas fa-gamepad"></i></a></li>
+
+                    {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                        <li tabindex="3"><a class="profil" href="{{ path('user_profil') }}"><i class="fas fa-user"></i></a></li>
+                        <li tabindex="4"><a class="chat"><i class="fas fa-comment"></i></a></li>
+                        <li tabindex="5"><a class="disconnect" href="{{ path('app_logout') }}"><i class="fas fa-power-off"></i></a></li>
+                    {% else %}
+                        <li tabindex="3"><a class="connect" href="{{ path('app_login') }}">Me connecter</a></li>
+                    {% endif %}
+            </ul>
+        </nav>
+    </header>
+{% endblock %}
+
+
 {% block body %}
-
-    <div class="row">
-        <div class="col-8">
-            Cartes de l'adversaire
-            {% for card in set.user2HandCards %}
-                <img style="width:50px" src="{{ asset('img/card/'~cards[card].picture) }}">{{ cards[card].number }}
-            {% endfor %}
-        </div>
-        <div class="col-4">
-            Actions
-        </div>
+    <div id="overlay">
+        <div id="infoJ3"></div>
     </div>
-    <div class="row">
-        Plateau adversaire
+    <div id="plateau">
+        {{ render(controller('App\\Controller\\GameController::refreshPlateauGame', {game:game.id})) }}
     </div>
-    <div class="row">
-        Plateau
-    </div>
-    <div class="row">
-        Mon Plateau
-    </div>
-    <div class="row">
-        <div class="col-8">
-            {% for card in set.user1HandCards %}
-                <img style="width:50px" src="{{ asset('img/card/'~cards[card].picture) }}">{{ cards[card].number }}
-            {% endfor %}
-        </div>
-        <div class="col-4">
-            Mes Actions
-        </div>
-    </div>
-
-
 
 {% endblock %}
 
-{% block title %}
+{% block javascripts %}
 
+    <script src="{{ asset('js/game.js') }}"></script>
+
+    <script>
+
+        let boucle
+
+        $(document).ready(function(){
+            boucle = setInterval(refreshGame, 3000);
+        });
+
+            //mettre à jour game en changeant quiJoue
+        function finTour(){
+            $.ajax({
+                url: "{{ path('fin_tour', {game: game.id}) }}",
+                success: function(data) {
+                    if (data == true){
+                        //Bloquer le plateau (overlay, ...)
+                        OverlayOn();
+                        //Relancer le timer...
+                        boucle = setInterval(refreshGame, 3000);
+                        $('#finDeTour').hide();
+                        $('#infoJ2').html('');
+                        $('#infoJ3').html('<div id="timeA">C\'EST À TON ADVERSAIRE</div>')
+                    }
+                },
+                error: function(){
+                }
+            })
+
+            $.ajax({
+                url: "{{ path('reset_pioche', {game: game.id}) }}",
+                success: function(data) {
+
+                },
+                error: function(){
+                }
+            })
+        }
+
+        function refreshGame() {
+            $.ajax({
+                url: "{{ path('get_tour', {game: game.id}) }}",
+                success: function(data) {
+                    console.log(data)
+                    if (data == false) {
+                        $('#infoJ3').html('<div id="timeA">C\'EST À TON ADVERSAIRE</div>')
+                        OverlayOn();
+
+                        $('#finDeTour').hide();
+                    } else {
+                        OverlayOff()
+                        clearInterval(boucle)
+
+                        $('#plateau').load("{{ path('refresh_plateau_game', {game:game.id}) }}",function(responseTxt, statusTxt, xhr){
+                            if(statusTxt == "success")
+                                console.log("External content loaded successfully!")
+
+                            $('#infoJ3').html('');
+/*
+                            $('#infoJ').html('<button id="finDeTour">FIN DU TOUR</button>')
+*/
+                            $('#infoJ2').html('<div id="time">C\'EST À TOI</div>')
+
+                            setTimeout(function(){
+                                $.ajax({
+                                    url: "{{ path('pioche', {game: game.id}) }}",
+                                    success: function(data) {
+                                        console.log(data);
+                                        if (data != true){
+                                            document.getElementById("mainY").innerHTML += '<input type="checkbox" name="carte_secret" id="carte'+ data[0] +'" value="' + data[0] + '" style="display: none" class="choixSecret"><label for="carte' + data[0] + '" class="labelCard"><img class="card cardY" src="../../../public/img/cartes/'+ data[1] +'.png"></label>';
+                                        }
+                                    },
+                                    error: function(){
+
+                                    }
+                                })
+                            }, 1500);
+
+                            if(statusTxt == "error")
+                                console.log("Error: " + xhr.status + ": " + xhr.statusText);
+                        })
+                    }
+                },
+                error: function(){
+                }
+            })
+        }
+
+        let action
+
+
+        $(document).on('click', '#secretY', function(){
+            $(':checkbox.choixSecret').prop('checked', false).prop('disabled', false)
+            action = 'secret' //mémorise l'action en cours
+/*
+            $('.choixSecret').show()
+*/
+            $('#valider').show()
+            $('.cardY').addClass('select')
+            $('#infoJ2').html('<div id="time">SECRET : SÉLÉCTIONNE UNE CARTE</div>')
+
+            $("input:checkbox").click(function () {
+                let bol = $("input:checkbox:checked").length >= 1
+                $("input:checkbox").not(":checked").attr("disabled", bol)
+            });
+        })
+
+        $(document).on('click', '#depotY', function(){
+            $(':checkbox.choixSecret').prop('checked', false).prop('disabled', false)
+            action = 'depot' //mémorise l'action en cours
+/*
+            $('.choixSecret').show()
+*/
+            $('#valider').show()
+            $('.cardY').addClass('select')
+            $('#infoJ2').html('<div id="time">DEPÔT : SÉLÉCTIONNE DEUX CARTES</div>')
+
+            $("input:checkbox").click(function () {
+                let bol = $("input:checkbox:checked").length >= 2
+                $("input:checkbox").not(":checked").attr("disabled", bol)
+            });
+        })
+
+        $(document).on('click', '#valider', function(){
+            switch (action) {
+                case 'secret':
+                    if ($("input:checkbox:checked").length >= 1){
+                        donneesAction = {
+                            action: 'secret',
+                            carte: $('input[name="carte_secret"]:checked').val()
+                        }
+                        finTour()
+                    }else {
+                        alert('Secret error')
+                    }
+                    break;
+                case 'depot':
+                    if ($("input:checkbox:checked").length >= 2){
+                        var array = [];
+                        $.each($("input[name='carte_secret']:checked"), function () {
+                            array.push($(this).val());
+                        });
+                        donneesAction = {
+                            action: 'depot',
+                            carte: array[0],
+                            carte2: array[1]
+                        }
+                        finTour()
+                    }else {
+                        alert('Depot error')
+                    }
+                    console.log(array);
+                    break;
+                case 'offre':
+                    break;
+                case 'echange':
+                    break;
+                default:
+                    break;
+            }
+
+            $.ajax({
+                url: "{{ path('action_game', {game: game.id}) }}",
+                data: donneesAction,
+                method: 'POST',
+                success: function(data) {
+                    if (data == true) {
+                        $('#plateau').load("{{ path('refresh_plateau_game', {game:game.id}) }}",function(responseTxt, statusTxt, xhr){
+                            if(statusTxt == "success")
+                                console.log("External content loaded successfully!")
+/*
+                            $('#infoJ').html('<button id="finDeTour">FIN DU TOUR</button>')
+*/
+                            $('#infoJ2').html('<div id="time">TERMINE TON TOUR</div>')
+
+                            if(statusTxt == "error")
+                                console.log("Error: " + xhr.status + ": " + xhr.statusText);
+                        })
+
+                    }
+                },
+                error: function(){
+                }
+            })
+
+        })
+
+        function OverlayOn() {
+            document.getElementById("overlay").style.display = "flex";
+        }
+
+        function OverlayOff() {
+            document.getElementById("overlay").style.display = "none";
+        }
+
+    </script>
 {% endblock %}
-

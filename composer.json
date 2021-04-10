@@ -12,6 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
         "easycorp/easyadmin-bundle": "^3.2",
+        "google/recaptcha": "^1.2",
         "gregwar/captcha-bundle": "^2.1",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "5.2.*",

@@ -51,7 +51,17 @@ class Game
      */
     private $sets;
 
-    public function __construct()
+	/**
+	 * @ORM\OneToMany(targetEntity=Round::class, mappedBy="game", cascade={"remove"})
+	 */
+	private $rounds;
+
+	/**
+	 * @ORM\Column(type="integer")
+	 */
+	private $quiJoue = 1;
+
+	public function __construct()
     {
         $this->sets = new ArrayCollection();
     }
@@ -150,4 +160,46 @@ class Game
 
         return $this;
     }
+
+	/**
+	 * @return Collection|Round[]
+	 */
+	public function getRounds(): Collection
+         	{
+         		return $this->rounds;
+         	}
+
+	public function addRound(Round $round): self
+         	{
+         		if (!$this->rounds->contains($round)) {
+         			$this->rounds[] = $round;
+         			$round->setGame($this);
+         		}
+         
+         		return $this;
+         	}
+
+	public function removeRound(Round $round): self
+         	{
+         		if ($this->rounds->removeElement($round)) {
+         			// set the owning side to null (unless already changed)
+         			if ($round->getGame() === $this) {
+         				$round->setGame(null);
+         			}
+         		}
+         
+         		return $this;
+         	}
+
+	public function getQuiJoue(): ?int
+	{
+		return $this->quiJoue;
+	}
+
+	public function setQuiJoue(int $quiJoue): self
+	{
+		$this->quiJoue = $quiJoue;
+
+		return $this;
+	}
 }

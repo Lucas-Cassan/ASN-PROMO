@@ -52,7 +52,6 @@ class SecurityController extends AbstractController
 			$em = $this->getDoctrine()->getManager(); // on récupère la gestion des entités
 
 			$stats= new Stats();
-			$stats->setUser($user);
 			$stats->setDefaites(0);
 			$stats->setVictoires(0);
 			$stats->setParties(0);

@@ -3,40 +3,166 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-            <link rel="stylesheet" type="text/css" href="{{ asset('css/modify_profil.css') }}" />
-        {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- VIEW PORT -->
+        <link rel="shortcut icon" type="image/png" href="{{ asset('img/items/favicon.png') }}"/> <!-- FAVICON -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css"> <!-- LINK CSS DEFAULT -->
+        <link href="{{ asset('css/header.css') }}" rel="stylesheet" type="text/css"> <!-- LINK CSS HEADER -->
 
-        {% block javascripts %}
-            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        {% block stylesheets %}
+
         {% endblock %}
+        <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/> <!-- LINK FONT A WESOME -->
+        <link rel="preconnect" href="https://fonts.gstatic.com"> <!-- LINK FONT A GOOGLE FONT -->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> <!-- LINK FONT ROBOTO -->
+        <script src="{{ asset('js/smooth.js') }}"></script><!-- SCRIPT SMOOTH SCROLL -->
     </head>
+
     <body>
-    <header>
-        <div class="navbar navbar-dark bg-dark shadow-sm">
-            <div class="container">
-                {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a href="{{ path('new_game') }}" class="navbar-brand d-flex align-items-center">
+    {% block header %}
+        <header id="header">
+            <nav id="headerNav">
+                <div id="headerG">
+                    <a class="accueil" href="{{ path('default') }}">Accueil</a>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                        <a class="jeu" href="{{ path('new_game') }}">Jouer</a>
+                    {% endif %}
+                </div>
+                <a href="" id="logo_jeu"><img src="{{ asset('img/items/logo.png') }}" alt="Logo Mamystérik"></a>
+                <div id="headerD">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                        <a href="{{ path("user_profil") }}">Profil</a>
+                        <a href="{{ path('app_logout') }}">Déconnexion</a>
                     {% else %}
-                    <a href="{{ path('app_login') }}" class="navbar-brand d-flex align-items-center">
-                        {% endif %}
-                    <strong>Jeu</strong>
-                </a>
-                <span class="text-white">
-                {% if is_granted('IS_AUTHENTICATED_FULLY')%}
-                    Bonjour {{ app.user.firstName }}. <a href="{{ path('app_logout') }}">Me déconnecter</a>
-                {% else %}
-                    <a href="{{ path('app_login') }}">Me connecter</a>
-                {% endif %}
-                    </span>
-            </div>
-        </div>
-    </header>
-    <main class="container">
-        {% block body %}{% endblock %}
-    </main>
+                        <a href="{{ path('app_login') }}">Connexion</a>
+                        <a href="{{ path('app_register') }}">Inscription</a>
+                    {% endif %}
+                </div>
+            </nav>
+            <svg version="1.1" id="headerSVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 506 73" style="enable-background:new 0 0 506 73;" xml:space="preserve">
+                    <path id="glacageshadowH" class="glacageShadow" d="M258.2,0H0v15c0,0,14.1-8.7,20.6,5.7s10.8,32.7,12.4,37c1.1,3.2,9.7,19.9,22,14.5s22.5-47.1,32-55s11.1,31.9,26.7,41.9s18.7-49.5,26.4-40.3s11.1,34,26.3,19.3s14.6-35.7,23.7-23.5s8.7,57,29.7,42.3c19.1-13.4,10.4-33.8,17.3-31.8c1.5,0.4,2.5,1.6,3,2.9c2.2,7.2,9.5,19.3,12.9,18.6c5.3-1.3,9.1-8.3,12.2-17c0.5-1.4,2.6-1.6,3.4-0.3c5.7,9.2,7.5,27.3,19.6,36c0.8,0.6,1.7,1,2.7,1.1c13.3,1.9,16.2-40.1,25-51.8c9.2-12.2,7.2,18.2,22.5,32.9c15.3,14.7,19.9-19.4,27.6-28.7s13.8,57.8,29.5,47.7S409.5,9.3,419,17.2c9.5,7.9,19.3,33.6,31.5,39s23.5-12.7,24.6-15.9c1.6-4.3,3.8-5.2,10.3-19.6C491.9,6.3,506,15,506,15V0L258.2,0"/>
+                <path id="glacageH" class="glacage" d="M258.2,0H0v8.3c0,0,14.1-9,20.6,5.9S31.4,48.2,33,52.6c1.1,3.3,9.7,20.6,22,15c12.2-5.7,22.5-48.8,32-57s11.1,33,26.7,43.4s18.7-51.3,26.4-41.7s11.1,35.2,26.3,20s14.6-37,23.7-24.3s8.7,59,29.7,43.8c19.1-13.9,10.4-35,17.3-32.9c1.5,0.4,2.5,1.6,3,3c2.2,7.5,9.5,20,12.9,19.3c5.3-1.3,9.1-8.6,12.2-17.6c0.5-1.5,2.6-1.7,3.4-0.3c5.7,9.5,7.5,28.3,19.6,37.3c0.8,0.6,1.7,1,2.7,1.1c13.3,1.9,16.2-41.5,25-53.7c9.2-12.7,7.2,18.8,22.5,34c15.3,15.2,19.9-20.1,27.6-29.7s13.8,59.9,29.5,49.4S409.5,2.4,419,10.6c9.5,8.2,19.3,34.8,31.5,40.4s23.5-13.2,24.6-16.5c1.6-4.4,3.8-5.4,10.3-20.3c6.5-15,20.6-5.9,20.6-5.9V0L258.2,0"/>
+                </svg>
+        </header>
+
+        <script type="text/javascript">
+            function colorAleatoire(){
+                var hasard=Math.floor(Math.random()*5);
+
+                var listeDesMots = ['#63B7C0','#F39A99', '#AA75AC', '#F47C57', '#665FBB'];
+
+                return(listeDesMots[hasard])
+            }
+
+            var color = colorAleatoire();
+
+            if (color == '#63B7C0'){
+                var colorshadow = '#5BA9B2';
+            }
+            if (color == '#F39A99'){
+                var colorshadow = '#E49190';
+            }
+
+            if (color == '#AA75AC'){
+                var colorshadow = '#8f6291';
+            }
+            if (color == '#F47C57'){
+                var colorshadow = '#e0714f';
+            }
+            if (color == '#665FBB'){
+                var colorshadow = '#56509f';
+            }
+
+            let header = document.getElementById('headerNav')
+            let glacageshadow = document.getElementById('glacageshadowH')
+            let glacage = document.getElementById('glacageH')
+
+            setTimeout(function (){
+                const input = document.querySelectorAll('input')
+                const select = document.querySelectorAll('select')
+                const btnSub = document.querySelectorAll('.btn.submit')
+                const btn = document.querySelectorAll('.btn')
+                const img = document.querySelectorAll('form .input img')
+                const link = document.querySelectorAll('.link')
+
+                img.forEach((item) => {
+                    item.style.borderColor = colorshadow;
+                })
+                link.forEach((item) => {
+                    item.style.color = color;
+
+                    item.addEventListener("mouseenter", function( item ) {
+                        item.target.style.color = colorshadow;
+                    }, false)
+
+                    item.addEventListener("mouseleave", function( item ) {
+                        item.target.style.color = color;
+                    }, false)
+                })
+
+                input.forEach((item) => {
+                    item.style.borderColor = colorshadow;
+                    item.style.backgroundColor = color;
+                })
+
+                select.forEach((item) => {
+                    item.style.borderColor = colorshadow;
+                    item.style.backgroundColor = color;
+                })
+
+                btn.forEach((item) => {
+                    item.style.borderColor = colorshadow;
+                    item.style.backgroundColor = color;
+
+                    item.addEventListener("mouseenter", function( item ) {
+                        item.target.style.borderColor = color;
+                        item.target.style.backgroundColor = colorshadow;
+                    }, false)
+
+                    item.addEventListener("mouseleave", function( item ) {
+                        item.target.style.borderColor = colorshadow;
+                        item.target.style.backgroundColor = color;
+                    }, false)
+                })
+
+                btnSub.forEach((item) => {
+                    item.style.borderColor = colorshadow;
+                    item.style.backgroundColor = color;
+
+                    item.addEventListener("mouseenter", function( item ) {
+                        item.target.style.borderColor = color;
+                        item.target.style.backgroundColor = colorshadow;
+                        $('.mamie2').css("left", "-10%")
+                        $('.mamie1').css("right", "-13%")
+                    }, false)
+
+                    item.addEventListener("mouseleave", function( item ) {
+                        item.target.style.borderColor = colorshadow;
+                        item.target.style.backgroundColor = color;
+                        $('.mamie2').css("left", "-15%")
+                        $('.mamie1').css("right", "-18%")
+                    }, false)
+                })
+            })
+
+
+
+            header.style.backgroundColor = color;
+            glacageshadow.style.fill = colorshadow;
+            glacage.style.fill = color;
+
+        </script>
+
+    {% endblock %}
+
+            <main class="container">
+                {% block body %}{% endblock %}
+            </main>
+
+            {% block javascripts %}
+
+            {% endblock %}
     </body>
 </html>

@@ -1,0 +1,186 @@
+header{
+    z-index: 999;
+    position: fixed!important;
+}
+#formConnexion{
+    height: 60vh;
+    width: 80vw;
+    padding: 35vh 10vw 5vh 10vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+#formInscription{
+    height: 60vh;
+    width: 80vw;
+    padding: 35vh 10vw 5vh 10vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+#part2, #part3{
+    position: absolute;
+    display: none;
+}
+#part3{
+    padding-top: 10%;
+}
+.formPart{
+    width: 100%;
+    height: auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.imgForm{
+    position: fixed;
+    height: 70%;
+    bottom: -5%;
+    transition: all .3s ease-in-out;
+}
+.imgForm.mamie2{
+    left: -15%;
+}
+.imgForm.mamie1{
+    right: -18%;
+}
+form .inputPsw div div{
+    margin: 10% 0 25% 0!important;
+}
+form .inputPsw div div:last-child{
+    margin: 10% 0 10% 0!important;
+}
+form .input, form .inputDate, form .inputPsw div div{
+    position: relative;
+    width: 20vw;
+    padding: 0;
+    height: 50px;
+    margin: 3% 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: transparent!important;
+    border: transparent;
+}
+form .inputDate{
+    justify-content: space-between;
+}
+form .input label, form .inputDate label, form .inputPsw label{
+    position: absolute;
+    left: 5%;
+    top: -75%;
+    font-family: "milky nice", sans-serif;
+    font-size: 1.3em;
+}
+form .input input, form .inputPsw input{
+    background-color: #F39A99;
+    border: 5px solid #E49190;
+    border-radius: 20px;
+    outline: none;
+    width: 100%;
+    padding: 0 5%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: "caviar", sans-serif;
+    font-size: 1em;
+}
+form .inputDate select{
+    background-color: #F39A99;
+    border: 5px solid #E49190;
+    border-radius: 20px;
+    outline: none;
+    width: content-box;
+    padding: 0 5%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: "caviar", sans-serif;
+    font-size: 1em;
+}
+form .inputDate select:nth-child(1){
+    width: 20%;
+}
+form .inputDate select:nth-child(2){
+    width: 30%;
+}
+form .inputDate select:nth-child(3){
+    width: 30%;
+}
+form .input img{
+    position: absolute;
+    top: -200%;
+    border-radius: 15px;
+    border: 5px solid #E49190;
+}
+form .input.captcha{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form .rgpd{
+    margin-bottom: 2%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rgpd input{
+    background-color: #F39A99;
+    border: 5px solid #E49190;
+    border-radius: 20px;
+    outline: none;
+    padding: 0 5%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.link{
+    text-decoration: none;
+    color: #600834;
+    font-weight: bold;
+    transition: all .3s ease-in-out;
+}
+
+
+.btn{
+    background-color: #F39A99;
+    border: 5px solid #E49190;
+    border-radius: 20px;
+    outline: none;
+    width: 15vw;
+    height: 50px;
+    margin: 2.5% 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "milky nice", sans-serif;
+    font-size: 1.1em;
+    cursor: pointer;
+    color: whitesmoke;
+    text-transform: uppercase;
+    transition: all .3s ease-in-out;
+}
+.btnBack{
+    position: absolute;
+    left: 20%;
+    width: auto!important;
+    padding: 0 2%;
+    bottom: 0;
+}
+.btn:hover{
+    transform: scale(1.1) rotate(-2deg);
+}
+ul{
+    position: fixed;
+    bottom: 2%;
+}
