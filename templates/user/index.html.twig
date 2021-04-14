@@ -2,17 +2,39 @@
 
 {% block title %}MAMYSTÉRIK - PROFIL{% endblock %}
 
+ {% block stylesheets %}
+     <link href="{{ asset('css/profil.css') }}" rel="stylesheet" type="text/css"> <!-- LINK CSS PROFIL -->
+ {% endblock %}
+
 {% block body %}
-    <div id="profil_content">
+
+ {#   <div id="profil_content">
         <h1>Bonjour {{ user.firstName }}</h1>
         <p>{{ user.lastName }}, {{ user.email }}, </p>
         <img id="avatar" src="{{ asset('img/avatar/'~user.avatar) }}">
         <a href="{{ path('app_modify') }}"/>Modifier le profil</div>
-    </div>
+    </div>#}
 
     <section id="profil">
+        <div class="profilStat" id="info">
 
+        </div>
+        <div class="profilStat" id="stats">
+
+        </div>
+        <div class="profilStat" id="startG">
+
+        </div>
     </section>
+
+
+    <script>
+        const headerProfil = document.querySelectorAll('header')
+
+        headerProfil.forEach((item) => {
+            item.style.borderColor = colorshadow;
+        })
+    </script>
 
 {% endblock %}
 

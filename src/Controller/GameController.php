@@ -26,7 +26,6 @@ class GameController extends AbstractController
 			'users' => $users
 		]);
 	}
-
 	/**
 	 * @Route("/create-game", name="create_game")
 	 */
@@ -280,6 +279,78 @@ class GameController extends AbstractController
 					$round->setUser2HandCards($main);
 				}
 				break;
+
+			case 'offre':
+				$carte1 = $request->request->get('carte1');
+				$carte2 = $request->request->get('carte2');
+				$carte3 = $request->request->get('carte3');
+				if ($joueur === 1) {
+					$actions = $round->getUser1Action(); //un tableau...
+					$actions['OFFRE'] = [$carte1,$carte2,$carte3]; //je sauvegarde la carte cachée dans mes actions
+					$round->setUser1Action($actions); //je mets à jour le tableau
+					$main = $round->getUser1HandCards();
+
+					$indexCarte = array_search($carte1, $main); //je récupère l'index de la carte a supprimer dans ma main
+					unset($main[$indexCarte]); //je supprime la carte de ma main
+					$indexCarte = array_search($carte2, $main); //je récupère l'index de la carte a supprimer dans ma main
+					unset($main[$indexCarte]); //je supprime la carte de ma main
+					$indexCarte = array_search($carte3, $main); //je récupère l'index de la carte a supprimer dans ma main
+					unset($main[$indexCarte]); //je supprime la carte de ma main
+
+					$round->setUser1HandCards($main);
+				}
+				if ($joueur === 2) {
+					$actions = $round->getUser2Action(); //un tableau...
+					$actions['OFFRE'] = [$carte1,$carte2,$carte3]; //je sauvegarde la carte cachée dans mes actions
+					$round->setUser2Action($actions); //je mets à jour le tableau
+					$main = $round->getUser2HandCards();
+
+					$indexCarte = array_search($carte1, $main); //je récupère l'index de la carte a supprimer dans ma main
+					unset($main[$indexCarte]); //je supprime la carte de ma main
+					$indexCarte = array_search($carte2, $main); //je récupère l'index de la carte a supprimer dans ma main
+					unset($main[$indexCarte]); //je supprime la carte de ma main
+					$indexCarte = array_search($carte3, $main); //je récupère l'index de la carte a supprimer dans ma main
+					unset($main[$indexCarte]); //je supprime la carte de ma main
+
+					$round->setUser2HandCards($main);
+				}
+				break;
+				case 'offreValid':
+					$carte = $request->request->get('carte');
+					if ($joueur === 1) {
+						$actions = $round->getUser2Action();
+						$board1 = $round->getUser1BoardCards();
+						$board2 = $round->getUser2BoardCards();
+						$carteChoisie = array_search($carte, $actions['OFFRE']);
+						array_splice($actions['OFFRE'], $carteChoisie, 1);
+						$board1[] = $carte;
+						$board2[] = $actions['OFFRE'][0];
+						$board2[] = $actions['OFFRE'][1];
+						$actions['OFFRE'] = 'done';
+						$round->setUser2Action($actions);
+						$round->setUser1BoardCards($board1);
+						$round->setUser2BoardCards($board2);
+						$round->setUser2Action($actions);
+						/*$game->setQuiJoue(1);*/
+					}
+					if ($joueur === 2) {
+						$actions = $round->getUser1Action();
+						$board1 = $round->getUser1BoardCards();
+						$board2 = $round->getUser2BoardCards();
+						$carteChoisie = array_search($carte, $actions['OFFRE']);
+						array_splice($actions['OFFRE'], $carteChoisie, 1);
+						$board2[] = $carte;
+						$board1[] = $actions['OFFRE'][0];
+						$board1[] = $actions['OFFRE'][1];
+						$actions['OFFRE'] = 'done';
+						$round->setUser1Action($actions);
+						$round->setUser1BoardCards($board1);
+						$round->setUser2BoardCards($board2);
+						$round->setUser1Action($actions);
+						/*$game->setQuiJoue(2);*/
+					}
+					break;
+
 		}
 
 		$entityManager->flush();

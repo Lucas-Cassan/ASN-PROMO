@@ -1,13 +1,13 @@
 #overlay {
-    position: fixed; /* Sit on top of the page content */
-    width: 100%; /* Full width (cover the whole page) */
-    height: 100%; /* Full height (cover the whole page) */
+    position: fixed;
+    width: 100%;
+    height: 100%;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
-    z-index: 100; /* Specify a stack order in case you're using a different order for other elements */
+    background-color: rgba(0,0,0,0.5);
+    z-index: 150;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,7 +18,7 @@
     padding: 0 60px 0 0;
     overflow: hidden;
     display: grid;
-    grid-template-rows: 20% 50% 30%;
+    grid-template-rows: 20% 55% 25%;
     grid-template-columns: 100%;
 }
 #plateau .card{
@@ -109,6 +109,12 @@
     grid-template-columns: 47.5% 47.5%;
     grid-template-rows: 47.5% 47.5%;
     gap: 5%;
+}
+#actionA button{
+    height: 80%;
+}
+#actionA button img{
+    width: 80%;
 }
 #plateau .divAction #secretY, #plateau .divAction #secretA{
     grid-column-start: 1;
@@ -295,6 +301,64 @@
     color: #242424;
     font-family: "milky nice", sans-serif;
     margin: 10px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: all 0.15s ease-in-out;
+    background-color: #F79B98;
+    border: 3px solid #E49190;
+    cursor: pointer;
+}
+.choix{
+    height: 100vh;
+    padding: 0 60px 0 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 120;
+}
+.choix .choixCard{
+    margin: 5% 0;
+    width: 95%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.choix h3{
+    width: auto;
+    font-size: 1em;
+    text-decoration: none;
+    color: #242424;
+    font-family: "milky nice", sans-serif;
+    margin: 0 10px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: all 0.15s ease-in-out;
+    background-color: #FEEED5;
+    border: 3px solid #ECDDC6;
+    text-align: center;
+}
+.choix button#valider{
+    position: relative;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    outline: none;
+    z-index: 50;
+    width: 15%;
+    font-size: 1em;
+    text-decoration: none;
+    color: #242424;
+    font-family: "milky nice", sans-serif;
     padding: 10px 20px;
     border-radius: 30px;
     transition: all 0.15s ease-in-out;

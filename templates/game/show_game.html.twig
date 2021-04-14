@@ -12,7 +12,6 @@
             <ul>
                 <li tabindex="1"><a class="accueil" href="{{ path('default') }}"><i class="fas fa-home"></i></a></li>
                 <li tabindex="2"><a class="jeu" href="{{ path('new_game') }}"><i class="fas fa-gamepad"></i></a></li>
-
                     {% if is_granted('IS_AUTHENTICATED_FULLY')%}
                         <li tabindex="3"><a class="profil" href="{{ path('user_profil') }}"><i class="fas fa-user"></i></a></li>
                         <li tabindex="4"><a class="chat"><i class="fas fa-comment"></i></a></li>
@@ -37,18 +36,15 @@
 {% endblock %}
 
 {% block javascripts %}
-
     <script src="{{ asset('js/game.js') }}"></script>
 
     <script>
-
         let boucle
 
         $(document).ready(function(){
             boucle = setInterval(refreshGame, 3000);
         });
 
-            //mettre à jour game en changeant quiJoue
         function finTour(){
             $.ajax({
                 url: "{{ path('fin_tour', {game: game.id}) }}",
@@ -70,11 +66,14 @@
             $.ajax({
                 url: "{{ path('reset_pioche', {game: game.id}) }}",
                 success: function(data) {
-
                 },
                 error: function(){
                 }
             })
+        }
+
+        function finTourChoix(){
+            $('.choix').fadeOut();
         }
 
         function refreshGame() {
@@ -101,6 +100,16 @@
 */
                             $('#infoJ2').html('<div id="time">C\'EST À TOI</div>')
 
+                            $('.cardPiocheOther').mouseenter(function (){
+                                console.log('ok');
+                                $('.cardPiocheOther1').css('transform', 'rotate(-10deg)');
+                                $('.cardPiocheOther2').css('transform', 'rotate(10deg)');
+                            });
+                            $('.cardPiocheOther').mouseleave(function (){
+                                $('.cardPiocheOther1').css('transform', 'rotate(0deg)');
+                                $('.cardPiocheOther2').css('transform', 'rotate(0deg)');
+                            });
+
                             setTimeout(function(){
                                 $.ajax({
                                     url: "{{ path('pioche', {game: game.id}) }}",
@@ -126,8 +135,35 @@
             })
         }
 
-        let action
+        function refreshGame2() {
+            $.ajax({
+                url: "{{ path('get_tour', {game: game.id}) }}",
+                success: function(data) {
+                    console.log(data)
+                    if (data == false) {
+                        $('#infoJ3').html('<div id="timeA">C\'EST À TON ADVERSAIRE</div>')
+                        OverlayOn();
+                        $('#finDeTour').hide();
+                    } else {
+                        OverlayOff()
+                        clearInterval(boucle)
+                        $('#plateau').load("{{ path('refresh_plateau_game', {game:game.id}) }}",function(responseTxt, statusTxt, xhr){
+                            if(statusTxt == "success")
+                                console.log("External content loaded successfully!")
 
+                            $('#infoJ3').html('');
+                            $('#infoJ2').html('<div id="time">C\'EST À TOI</div>')
+                            if(statusTxt == "error")
+                                console.log("Error: " + xhr.status + ": " + xhr.statusText);
+                        })
+                    }
+                },
+                error: function(){
+                }
+            })
+        }
+
+        let action
 
         $(document).on('click', '#secretY', function(){
             $(':checkbox.choixSecret').prop('checked', false).prop('disabled', false)
@@ -161,6 +197,22 @@
             });
         })
 
+        $(document).on('click', '#offreY', function(){
+            $(':checkbox.choixSecret').prop('checked', false).prop('disabled', false)
+            action = 'offre' //mémorise l'action en cours
+            /*
+                        $('.choixSecret').show()
+            */
+            $('#valider').show()
+            $('.cardY').addClass('select')
+            $('#infoJ2').html('<div id="time">OFFRE : SÉLÉCTIONNE TROIS CARTES</div>')
+
+            $("input:checkbox").click(function () {
+                let bol = $("input:checkbox:checked").length >= 3
+                $("input:checkbox").not(":checked").attr("disabled", bol)
+            });
+        })
+
         $(document).on('click', '#valider', function(){
             switch (action) {
                 case 'secret':
@@ -189,16 +241,44 @@
                     }else {
                         alert('Depot error')
                     }
-                    console.log(array);
                     break;
                 case 'offre':
+                    if ($("input:checkbox:checked").length >= 3){
+                        var array = [];
+                        $.each($("input[name='carte_secret']:checked"), function () {
+                            array.push($(this).val());
+                        });
+                        donneesAction = {
+                            action: 'offre',
+                            carte1: array[0],
+                            carte2: array[1],
+                            carte3: array[2]
+                        }
+                        finTour()
+                    }else {
+                        alert('Offre error')
+                    }
+                    break;
+                case 'offreValid':
+                    if ($("input:checkbox:checked").length >= 1){
+                        var array = [];
+                        $.each($("input[name='carte_offre']:checked"), function () {
+                            array.push($(this).val());
+                        });
+                        donneesAction = {
+                            action: 'offreValid',
+                            carte: array[0]
+                        }
+                        finTourChoix()
+                    }else {
+                        alert('offreValid error')
+                    }
                     break;
                 case 'echange':
                     break;
                 default:
                     break;
             }
-
             $.ajax({
                 url: "{{ path('action_game', {game: game.id}) }}",
                 data: donneesAction,
@@ -228,10 +308,8 @@
         function OverlayOn() {
             document.getElementById("overlay").style.display = "flex";
         }
-
         function OverlayOff() {
             document.getElementById("overlay").style.display = "none";
         }
-
     </script>
 {% endblock %}

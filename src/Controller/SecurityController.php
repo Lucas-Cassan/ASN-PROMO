@@ -63,7 +63,8 @@ class SecurityController extends AbstractController
             $encoded = $passwordEncoder->encodePassword($user,$user->getPassword());
             $user->setAvatar("avatar.jpg");
             $user->setPassword($encoded);
-            $em->persist($user); // on effectue les mise à jours internes
+			$user->setStats($stats);
+			$em->persist($user); // on effectue les mise à jours internes
             $em->flush(); // on effectue la mise à jour vers la base de données
 
             return $this->redirectToRoute('user_profil', ['id' => $user->getId()]);

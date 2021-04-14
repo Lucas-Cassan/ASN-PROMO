@@ -2,8 +2,15 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="9d6b80c8-b05d-4579-99cf-c97bf62efa10" name="VPS">
-        <fileTransfer rootFolder="/jeu" accessType="SFTP" host="185.216.25.186" port="22" sshConfigId="fb2f3fdb-6e2d-4eb1-a63e-93a7de2eee60" sshConfig="asn@185.216.25.186:22 password">
+      <webServer id="9d6b80c8-b05d-4579-99cf-c97bf62efa10" name="VPS JEU">
+        <fileTransfer rootFolder="/jeu" accessType="SFTP" host="185.216.25.186" port="22" sshConfigId="4f789afd-8ad4-4d11-863d-aec1b2d3c36f" sshConfig="asn@185.216.25.186:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="1bc15541-c74f-4515-894a-6c57d4fae837" name="VPS">
+        <fileTransfer rootFolder="/home/mmi19a04/public_html" accessType="SFTP" host="185.216.25.186" port="22" sshConfigId="fb2f3fdb-6e2d-4eb1-a63e-93a7de2eee60" sshConfig="mmi19a04@185.216.25.186:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

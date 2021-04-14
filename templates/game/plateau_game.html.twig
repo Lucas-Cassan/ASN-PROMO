@@ -1,3 +1,29 @@
+{% if (adversaire.actions['OFFRE']) and (adversaire.actions['OFFRE'] != 'done') %}
+    <div class="choix">
+        <h3>Choississez l'une de ces cartes</h3>
+            <div class="choixCard">
+                <input type="checkbox" name="carte_offre" id="carte{{ adversaire.actions['OFFRE'][0] }}" value="{{ adversaire.actions['OFFRE'][0] }}" style="display: none" class="choixOther">
+                <label for="carte{{ adversaire.actions['OFFRE'][0] }}" class="labelCard"><img class="card cardY Choose" src="{{ asset('img/cartes/'~cards[adversaire.actions['OFFRE'][0]].picture) }}.png"></label>
+                <input type="checkbox" name="carte_offre" id="carte{{ adversaire.actions['OFFRE'][1] }}" value="{{ adversaire.actions['OFFRE'][1] }}" style="display: none" class="choixOther">
+                <label for="carte{{ adversaire.actions['OFFRE'][1] }}" class="labelCard"><img class="card cardY Choose" src="{{ asset('img/cartes/'~cards[adversaire.actions['OFFRE'][1]].picture) }}.png"></label>
+                <input type="checkbox" name="carte_offre" id="carte{{ adversaire.actions['OFFRE'][2] }}" value="{{ adversaire.actions['OFFRE'][2] }}" style="display: none" class="choixOther">
+                <label for="carte{{ adversaire.actions['OFFRE'][2] }}" class="labelCard"><img class="card cardY Choose" src="{{ asset('img/cartes/'~cards[adversaire.actions['OFFRE'][2]].picture) }}.png"></label>
+            </div>
+        <button id="valider">Valider</button>
+    </div>
+    <script>
+            $(':checkbox.choixSecret').prop('checked', false).prop('disabled', false)
+            action = 'offreValid'
+            $('.cardY.Choose').addClass('select')
+
+            $("input:checkbox").click(function () {
+                let bol = $("input:checkbox:checked").length >= 1
+                $("input:checkbox").not(":checked").attr("disabled", bol)
+            });
+    </script>
+{% endif %}
+
+
 <div id="adversaire">
     <div class="main" id="mainA">
         {% for card in adversaire.handCards %}
@@ -14,19 +40,19 @@
         {% if adversaire.actions['DEPOT']==false %}
             <button  class="action" id="depotA"><img src="{{ asset('img/jetons/depot.svg') }}" alt="Action Depot"><span>Dépôt</span></button>
         {% else %}
-            <button class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/secret.svg') }}" alt="Action Secret"><span>Secret</span></button>
+            <button class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/depot.svg') }}" alt="Action Secret"><span>Secret</span></button>
         {% endif %}
 
         {% if adversaire.actions['OFFRE']==false %}
             <button  class="action" id="offreA"><img src="{{ asset('img/jetons/offre.svg') }}" alt="Action Offre"><span>Offre</span></button>
         {% else %}
-            <button class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/secret.svg') }}" alt="Action Secret"><span>Secret</span></button>
+            <button class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/offre.svg') }}" alt="Action Secret"><span>Secret</span></button>
         {% endif %}
 
         {% if adversaire.actions['ECHANGE']==false %}
             <button  class="action" id="echangeA"><img src="{{ asset('img/jetons/echange.svg') }}" alt="Action Echange"><span>Échange</span></button>
         {% else %}
-            <button class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/secret.svg') }}" alt="Action Secret"><span>Secret</span></button>
+            <button class="action" style="filter: grayscale(100%)"><img src="{{ asset('img/jetons/echange.svg') }}" alt="Action Secret"><span>Secret</span></button>
         {% endif %}
     </div>
 </div>
