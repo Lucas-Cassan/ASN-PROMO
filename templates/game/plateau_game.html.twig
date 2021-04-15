@@ -23,6 +23,65 @@
     </script>
 {% endif %}
 
+{% if (adversaire.actions['ECHANGE']) and (tour == 'moi') and (adversaire.actions['ECHANGE'] != 'done') %}
+    <div class="choix">
+        <h3>Choississez une paire</h3>
+        <div class="choixCard">
+            <input type="checkbox" name="carte_echangeGroup" id="carteGroupe1" value="group1" style="display: none" class="choixOther">
+            <label for="carteGroupe1" class="labelCard">
+                {% for card in adversaire.actions['ECHANGE']['group1'] %}
+                    <img class="card cardY Choose" src="{{ asset('img/cartes/'~cards[card].picture) }}.png">
+                {% endfor %}
+            </label>
+            <input type="checkbox" name="carte_echangeGroup" id="carteGroupe2" value="group2" style="display: none" class="choixOther">
+            <label for="carteGroupe2" class="labelCard">
+                {% for card in adversaire.actions['ECHANGE']['group2'] %}
+                    <img class="card cardY Choose" src="{{ asset('img/cartes/'~cards[card].picture) }}.png">
+                {% endfor %}
+            </label>
+        </div>
+        <button id="valider">Valider</button>
+    </div>
+    <script>
+        $(':checkbox.choixSecret').prop('checked', false).prop('disabled', false)
+        action = 'echangeValid'
+        $('.cardY.Choose').addClass('select')
+
+        $("input:checkbox").click(function () {
+            let bol = $("input:checkbox:checked").length >= 1
+            $("input:checkbox").not(":checked").attr("disabled", bol)
+        });
+    </script>
+{% endif %}
+
+{% if (moi.actions['ECHANGE']) and (tour == 'moi') and (moi.actions['ECHANGE'] != 'done') %}
+    <div class="choix">
+        <h3>Choississez deux carte pour les grouper</h3>
+        <div class="choixCard">
+            <input type="checkbox" name="carte_echange" id="carte{{ moi.actions['ECHANGE'][0] }}" value="{{ moi.actions['ECHANGE'][0] }}" style="display: none" class="choixOther">
+            <label for="carte{{ moi.actions['ECHANGE'][0] }}" class="labelCard"><img class="card cardY Choose" src="{{ asset('img/cartes/'~cards[moi.actions['ECHANGE'][0]].picture) }}.png"></label>
+            <input type="checkbox" name="carte_echange" id="carte{{ moi.actions['ECHANGE'][1] }}" value="{{ moi.actions['ECHANGE'][1] }}" style="display: none" class="choixOther">
+            <label for="carte{{ moi.actions['ECHANGE'][1] }}" class="labelCard"><img class="card cardY Choose" src="{{ asset('img/cartes/'~cards[moi.actions['ECHANGE'][1]].picture) }}.png"></label>
+            <input type="checkbox" name="carte_echange" id="carte{{ moi.actions['ECHANGE'][2] }}" value="{{ moi.actions['ECHANGE'][2] }}" style="display: none" class="choixOther">
+            <label for="carte{{ moi.actions['ECHANGE'][2] }}" class="labelCard"><img class="card cardY Choose" src="{{ asset('img/cartes/'~cards[moi.actions['ECHANGE'][2]].picture) }}.png"></label>
+            <input type="checkbox" name="carte_echange" id="carte{{ moi.actions['ECHANGE'][3] }}" value="{{ moi.actions['ECHANGE'][3] }}" style="display: none" class="choixOther">
+            <label for="carte{{ moi.actions['ECHANGE'][3] }}" class="labelCard"><img class="card cardY Choose" src="{{ asset('img/cartes/'~cards[moi.actions['ECHANGE'][3]].picture) }}.png"></label>
+
+        </div>
+        <button id="valider">Valider</button>
+    </div>
+    <script>
+        $(':checkbox.choixSecret').prop('checked', false).prop('disabled', false)
+        action = 'echangeGroup'
+        $('.cardY.Choose').addClass('select')
+
+        $("input:checkbox").click(function () {
+            let bol = $("input:checkbox:checked").length >= 2
+            $("input:checkbox").not(":checked").attr("disabled", bol)
+        });
+    </script>
+{% endif %}
+
 
 <div id="adversaire">
     <div class="main" id="mainA">

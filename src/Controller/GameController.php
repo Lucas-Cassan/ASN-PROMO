@@ -184,6 +184,11 @@ class GameController extends AbstractController
 			$adversaire['handCards'] = $game->getRounds()[0]->getUser2HandCards();
 			$adversaire['actions'] = $game->getRounds()[0]->getUser2Action();
 			$adversaire['board'] = $game->getRounds()[0]->getUser2BoardCards();
+			if ($game->getQuiJoue() === 1) {
+				$tour = 'moi';
+			} else {
+				$tour = 'adversaire';
+			}
 		} elseif ($this->getUser()->getId() === $game->getUser2()->getId()) {
 			$moi['handCards'] = $game->getRounds()[0]->getUser2HandCards();
 			$moi['actions'] = $game->getRounds()[0]->getUser2Action();
@@ -191,6 +196,11 @@ class GameController extends AbstractController
 			$adversaire['handCards'] = $game->getRounds()[0]->getUser1HandCards();
 			$adversaire['actions'] = $game->getRounds()[0]->getUser1Action();
 			$adversaire['board'] = $game->getRounds()[0]->getUser1BoardCards();
+			if ($game->getQuiJoue() === 2) {
+				$tour = 'moi';
+			} else {
+				$tour = 'adversaire';
+			}
 		} else {
 			//redirection... je ne suis pas l'un des deux joueurs
 		}
@@ -200,6 +210,7 @@ class GameController extends AbstractController
 			'set' => $game->getRounds()[0],
 			'cards' => $tCards,
 			'moi' => $moi,
+			'tour' => $tour,
 			'adversaire' => $adversaire
 		]);
 	}
@@ -350,7 +361,132 @@ class GameController extends AbstractController
 						/*$game->setQuiJoue(2);*/
 					}
 					break;
+			case 'echange':
+				$carte1 = $request->request->get('carte1');
+				$carte2 = $request->request->get('carte2');
+				$carte3 = $request->request->get('carte3');
+				$carte4 = $request->request->get('carte4');
+				if ($joueur === 1) {
+					$actions = $round->getUser1Action(); //un tableau...
+					$actions['ECHANGE'] = [$carte1,$carte2,$carte3,$carte4]; //je sauvegarde la carte cachée dans mes actions
+					$round->setUser1Action($actions); //je mets à jour le tableau
+					$main = $round->getUser1HandCards();
 
+					$indexCarte = array_search($carte1, $main);
+					unset($main[$indexCarte]);
+					$indexCarte = array_search($carte2, $main);
+					unset($main[$indexCarte]);
+					$indexCarte = array_search($carte3, $main);
+					unset($main[$indexCarte]);
+					$indexCarte = array_search($carte4, $main);
+					unset($main[$indexCarte]);
+
+					$round->setUser1HandCards($main);
+				}
+				if ($joueur === 2) {
+					$actions = $round->getUser2Action();
+					$actions['ECHANGE'] = [$carte1,$carte2,$carte3,$carte4];
+					$round->setUser2Action($actions);
+					$main = $round->getUser2HandCards();
+
+					$indexCarte = array_search($carte1, $main);
+					unset($main[$indexCarte]);
+					$indexCarte = array_search($carte2, $main);
+					unset($main[$indexCarte]);
+					$indexCarte = array_search($carte3, $main);
+					unset($main[$indexCarte]);
+					$indexCarte = array_search($carte4, $main);
+					unset($main[$indexCarte]);
+
+					$round->setUser2HandCards($main);
+				}
+				break;
+
+			case 'echangeGroup':
+				$carte1 = $request->request->get('carte1');
+				$carte2 = $request->request->get('carte2');
+				$carteP1 = [];
+
+				if ($joueur === 1) {
+					$actions = $round->getUser1Action();
+					$echange = $actions['ECHANGE'];
+
+					$indexCarte = array_search($carte1, $echange);
+					array_splice($echange, $indexCarte, 1);
+					$indexCarte = array_search($carte2, $echange);
+					array_splice($echange, $indexCarte, 1);
+
+					array_push($carteP1, $carte1, $carte2);
+					$actions['ECHANGE'] = [];
+					$actions['ECHANGE']['group1'] = $carteP1;
+					$actions['ECHANGE']['group2'] = $echange;
+
+					$round->setUser1Action($actions);
+				}
+				if ($joueur === 2) {
+					$actions = $round->getUser2Action();
+					$echange = $actions['ECHANGE'];
+
+					$indexCarte = array_search($carte1, $echange);
+					array_splice($echange, $indexCarte, 1);
+					$indexCarte = array_search($carte2, $echange);
+					array_splice($echange, $indexCarte, 1);
+
+					array_push($carteP1, $carte1, $carte2);
+					$actions['ECHANGE'] = [];
+					$actions['ECHANGE']['group1'] = $carteP1;
+					$actions['ECHANGE']['group2'] = $echange;
+
+					$round->setUser2Action($actions);
+				}
+				break;
+			case 'echangeValid':
+				$groupChoisi = $request->request->get('group');
+				if ($joueur === 1) {
+					$actions = $round->getUser2Action();
+					$board1 = $round->getUser1BoardCards();
+					$board2 = $round->getUser2BoardCards();
+					if ($groupChoisi == 'group1'){
+						$board1[] = $actions['ECHANGE']['group1'][0];
+						$board1[] = $actions['ECHANGE']['group1'][1];
+
+						$board2[] = $actions['ECHANGE']['group2'][0];
+						$board2[] = $actions['ECHANGE']['group2'][1];
+					}else{
+						$board2[] = $actions['ECHANGE']['group1'][0];
+						$board2[] = $actions['ECHANGE']['group1'][1];
+
+						$board1[] = $actions['ECHANGE']['group2'][0];
+						$board1[] = $actions['ECHANGE']['group2'][1];
+					}
+					$actions['ECHANGE'] = 'done';
+					$round->setUser2Action($actions);
+					$round->setUser1BoardCards($board1);
+					$round->setUser2BoardCards($board2);
+				}
+				if ($joueur === 2) {
+					$actions = $round->getUser1Action();
+					$board1 = $round->getUser1BoardCards();
+					$board2 = $round->getUser2BoardCards();
+					if ($groupChoisi == 'group1'){
+						$board2[] = $actions['ECHANGE']['group1'][0];
+						$board2[] = $actions['ECHANGE']['group1'][1];
+
+						$board1[] = $actions['ECHANGE']['group2'][0];
+						$board1[] = $actions['ECHANGE']['group2'][1];
+					}else{
+						$board1[] = $actions['ECHANGE']['group1'][0];
+						$board1[] = $actions['ECHANGE']['group1'][1];
+
+						$board2[] = $actions['ECHANGE']['group2'][0];
+						$board2[] = $actions['ECHANGE']['group2'][1];
+					}
+					$actions['ECHANGE'] = 'done';
+					$round->setUser1Action($actions);
+					$round->setUser1BoardCards($board1);
+					$round->setUser2BoardCards($board2);
+				}
+				break;
 		}
 
 		$entityManager->flush();

@@ -22,6 +22,33 @@ header{
     flex-direction: column;
     position: relative;
 }
+#formNewGame{
+    height: auto;
+    width: 80vw;
+    padding: 10vh 10vw 5vh 10vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+form#formNewGame .inputDate select{
+    background-color: #F39A99;
+    border: 5px solid #E49190;
+    border-radius: 20px;
+    outline: none;
+    padding: 0 5%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "caviar", sans-serif;
+    font-size: 1em;
+}
+form#formNewGame .inputDate select:nth-child(1){
+    width: auto;
+}
 #part2, #part3{
     position: absolute;
     display: none;

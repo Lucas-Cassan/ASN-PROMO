@@ -74,6 +74,7 @@
 
         function finTourChoix(){
             $('.choix').fadeOut();
+            $('#infoJ2').html('<div id="time">C\'EST À TOI</div>')
         }
 
         function refreshGame() {
@@ -93,7 +94,6 @@
                         $('#plateau').load("{{ path('refresh_plateau_game', {game:game.id}) }}",function(responseTxt, statusTxt, xhr){
                             if(statusTxt == "success")
                                 console.log("External content loaded successfully!")
-
                             $('#infoJ3').html('');
 /*
                             $('#infoJ').html('<button id="finDeTour">FIN DU TOUR</button>')
@@ -184,9 +184,6 @@
         $(document).on('click', '#depotY', function(){
             $(':checkbox.choixSecret').prop('checked', false).prop('disabled', false)
             action = 'depot' //mémorise l'action en cours
-/*
-            $('.choixSecret').show()
-*/
             $('#valider').show()
             $('.cardY').addClass('select')
             $('#infoJ2').html('<div id="time">DEPÔT : SÉLÉCTIONNE DEUX CARTES</div>')
@@ -200,15 +197,25 @@
         $(document).on('click', '#offreY', function(){
             $(':checkbox.choixSecret').prop('checked', false).prop('disabled', false)
             action = 'offre' //mémorise l'action en cours
-            /*
-                        $('.choixSecret').show()
-            */
             $('#valider').show()
             $('.cardY').addClass('select')
             $('#infoJ2').html('<div id="time">OFFRE : SÉLÉCTIONNE TROIS CARTES</div>')
 
             $("input:checkbox").click(function () {
                 let bol = $("input:checkbox:checked").length >= 3
+                $("input:checkbox").not(":checked").attr("disabled", bol)
+            });
+        })
+
+        $(document).on('click', '#echangeY', function(){
+            $(':checkbox.choixSecret').prop('checked', false).prop('disabled', false)
+            action = 'echange' //mémorise l'action en cours
+            $('#valider').show()
+            $('.cardY').addClass('select')
+            $('#infoJ2').html('<div id="time">ÉCHANGE : SÉLÉCTIONNE QUATRES CARTES</div>')
+
+            $("input:checkbox").click(function () {
+                let bol = $("input:checkbox:checked").length >= 4
                 $("input:checkbox").not(":checked").attr("disabled", bol)
             });
         })
@@ -275,6 +282,53 @@
                     }
                     break;
                 case 'echange':
+                    if ($("input:checkbox:checked").length >= 4){
+                        var array = [];
+                        $.each($("input[name='carte_secret']:checked"), function () {
+                            array.push($(this).val());
+                        });
+                        donneesAction = {
+                            action: 'echange',
+                            carte1: array[0],
+                            carte2: array[1],
+                            carte3: array[2],
+                            carte4: array[3]
+                        }
+                        finTourChoix()
+                    }else {
+                        alert('Echange error')
+                    }
+                    break;
+                case 'echangeGroup':
+                    if ($("input:checkbox:checked").length >= 2){
+                        var array = [];
+                        $.each($("input[name='carte_echange']:checked"), function () {
+                            array.push($(this).val());
+                        });
+                        donneesAction = {
+                            action: 'echangeGroup',
+                            carte1: array[0],
+                            carte2: array[1]
+                        }
+                        finTour()
+                    }else {
+                        alert('echangeGroup error')
+                    }
+                    break;
+                case 'echangeValid':
+                    if ($("input:checkbox:checked").length >= 1){
+                        var array = [];
+                        $.each($("input[name='carte_echangeGroup']:checked"), function () {
+                            array.push($(this).val());
+                        });
+                        donneesAction = {
+                            action: 'echangeValid',
+                            group: array[0]
+                        }
+                        finTourChoix()
+                    }else {
+                        alert('echangeValid error')
+                    }
                     break;
                 default:
                     break;
@@ -291,8 +345,6 @@
 /*
                             $('#infoJ').html('<button id="finDeTour">FIN DU TOUR</button>')
 */
-                            $('#infoJ2').html('<div id="time">TERMINE TON TOUR</div>')
-
                             if(statusTxt == "error")
                                 console.log("Error: " + xhr.status + ": " + xhr.statusText);
                         })
