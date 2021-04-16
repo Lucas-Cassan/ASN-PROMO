@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Cassandra\Timestamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -71,6 +72,15 @@ class User implements UserInterface
 	 * * @ORM\JoinColumn(nullable=true)
 	 */
 	private $stats;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $createAt;
+
+
+
+
 
     public function __construct()
     {
@@ -286,7 +296,25 @@ class User implements UserInterface
     }
 
 	public function setStats($stats): void
-	{
-		$this->stats = $stats;
-	}
+                                             	{
+                                             		$this->stats = $stats;
+                                             	}
+
+    public function getCreateAt(): ?string
+    {
+        return $this->createAt;
+    }
+
+    public function setCreateAt(string $createAt): self
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+
+
+
+
+
 }

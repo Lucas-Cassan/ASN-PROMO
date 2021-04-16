@@ -64,6 +64,8 @@ class SecurityController extends AbstractController
             $user->setAvatar("donut1.png");
             $user->setPassword($encoded);
 			$user->setStats($stats);
+			$createAt = date("d-m-Y");
+			$user->setCreateAt($createAt);
 			$em->persist($user); // on effectue les mise à jours internes
             $em->flush(); // on effectue la mise à jour vers la base de données
 

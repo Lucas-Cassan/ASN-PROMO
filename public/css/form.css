@@ -32,6 +32,14 @@ header{
     flex-direction: column;
     position: relative;
 }
+form#formNewGame .inputDate{
+    justify-content: center;
+}
+form#formNewGame label{
+    font-size: 2em;
+    text-transform: uppercase;
+    font-family: "Milky Nice", sans-serif;
+}
 form#formNewGame .inputDate select{
     background-color: #F39A99;
     border: 5px solid #E49190;
@@ -45,9 +53,6 @@ form#formNewGame .inputDate select{
     align-items: center;
     font-family: "caviar", sans-serif;
     font-size: 1em;
-}
-form#formNewGame .inputDate select:nth-child(1){
-    width: auto;
 }
 #part2, #part3{
     position: absolute;

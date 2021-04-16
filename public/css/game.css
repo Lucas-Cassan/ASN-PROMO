@@ -18,7 +18,7 @@
     padding: 0 60px 0 0;
     overflow: hidden;
     display: grid;
-    grid-template-rows: 20% 55% 25%;
+    grid-template-rows: 20% 50% 30%;
     grid-template-columns: 100%;
 }
 #plateau .card{
@@ -102,19 +102,24 @@
     grid-row-start: 1;
     grid-row-end: 2;
 
-    height: 80%;
-    width: 80%;
-    padding: 10%;
+    height: 75%;
+    width: 75%;
+    padding: 12.5%;
     display: grid;
     grid-template-columns: 47.5% 47.5%;
     grid-template-rows: 47.5% 47.5%;
     gap: 5%;
 }
+#plateau #adversaire .divAction{
+    height: 90%;
+    width: 60%;
+    padding: 2.5% 20%;
+}
 #actionA button{
-    height: 80%;
+    height: 100%;
 }
 #actionA button img{
-    width: 80%;
+    height: 90%;
 }
 #plateau .divAction #secretY, #plateau .divAction #secretA{
     grid-column-start: 1;
@@ -136,8 +141,12 @@
     transition: all .3s ease-in-out;
     outline: none;
 }
+#plateau #adversaire .divAction .action{
+    cursor: not-allowed;
+}
 #plateau #you .divAction .action{
     cursor: pointer;
+    margin: 0 2%;
 }
 #plateau #you .divAction .action:hover{
     transform: scale(1.1);
@@ -162,8 +171,6 @@
     align-items: center;
     position: relative;
 }
-
-
 #adversaire{
     grid-row-start: 1;
     grid-row-end: 2;
@@ -177,7 +184,6 @@
     position: absolute;
     top: -30%;
 }
-
 #table{
     grid-row-start: 2;
     grid-row-end: 3;

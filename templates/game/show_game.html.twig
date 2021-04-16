@@ -168,9 +168,6 @@
         $(document).on('click', '#secretY', function(){
             $(':checkbox.choixSecret').prop('checked', false).prop('disabled', false)
             action = 'secret' //mémorise l'action en cours
-/*
-            $('.choixSecret').show()
-*/
             $('#valider').show()
             $('.cardY').addClass('select')
             $('#infoJ2').html('<div id="time">SECRET : SÉLÉCTIONNE UNE CARTE</div>')
@@ -186,7 +183,7 @@
             action = 'depot' //mémorise l'action en cours
             $('#valider').show()
             $('.cardY').addClass('select')
-            $('#infoJ2').html('<div id="time">DEPÔT : SÉLÉCTIONNE DEUX CARTES</div>')
+            $('#infoJ2').html('<div id="time">DÉPÔT : SÉLÉCTIONNE DEUX CARTES</div>')
 
             $("input:checkbox").click(function () {
                 let bol = $("input:checkbox:checked").length >= 2
@@ -212,7 +209,7 @@
             action = 'echange' //mémorise l'action en cours
             $('#valider').show()
             $('.cardY').addClass('select')
-            $('#infoJ2').html('<div id="time">ÉCHANGE : SÉLÉCTIONNE QUATRES CARTES</div>')
+            $('#infoJ2').html('<div id="time">ÉCHANGE : SÉLÉCTIONNE QUATRE CARTES</div>')
 
             $("input:checkbox").click(function () {
                 let bol = $("input:checkbox:checked").length >= 4

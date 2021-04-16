@@ -15,9 +15,9 @@ header #headerNav{
     padding: 12vh 5vw 5vh 5vw;
     height: 83vh;
     display: grid;
-    grid-template-columns: 21.5% 21.5% 21.5% 21.5%;
-    grid-template-rows: 21.5% 21.5% 21.5% 21.5%;
-    gap: 4.5% 4.5%;
+    grid-template-columns: 47.5% 47.5%;
+    grid-template-rows: 47.5% 47.5%;
+    gap: 4% 2.5%;
    /* font-family: "milky nice", sans-serif;
     font-size: 1.1em;*/
 }
@@ -25,23 +25,105 @@ header #headerNav{
     background-color: #F39A99;
     border: 5px solid #E49190;
     border-radius: 20px;
-
 }
 #profil #info{
     grid-column-start: 1;
-    grid-column-end: 4;
+    grid-column-end: 3;
     grid-row-start: 1;
-    grid-row-end: 3;
+    grid-row-end: 2;
+
+    padding: 5%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+}
+#profil #info #avatar{
+    height: 100%;
+    margin-right: 5%;
+}
+#profil #info div{
+    font-size: 1.2em;
+    font-family: "caviar";
+    color: white;
+    width: 100%;
+}
+#profil #info div p{
+    margin: 2% 0;
+    width: auto;
+}
+#profil #info div p span{
+    text-transform: uppercase;
 }
 #profil #stats{
     grid-column-start: 1;
-    grid-column-end: 3;
-    grid-row-start: 3;
-    grid-row-end: 5;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
 }
-#profil #startG{
-    grid-column-start: 4;
-    grid-column-end: 5;
-    grid-row-start: 1;
-    grid-row-end: 2;
+#profil i{
+     margin-right: 10px;
+ }
+#profil #info h2, #profil #stats h2, #profil #partUser h2{
+    color: white;
+    font-family: "milky nice";
+    font-size: 1.5em;
+    margin: 5% 0 0 5%;
+    height: 10%;
+}
+#profil #stats div, #profil #partUser div{
+    display: flex;
+    height: 80%;
+    padding-left: 5% ;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    font-size: 1.2em;
+    font-family: "caviar";
+    color: white;
+    width: 100%;
+}
+#profil #stats div p, #profil #partUser div p{
+    margin: 2% 0;
+    width: auto;
+}
+#profil #stats div p span, #profil #partUser div p span{
+
+    text-transform: uppercase;
+}
+#profil #partUser{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+#partUser p {
+    width: 100%!important;
+    display: flex;
+    align-items: center;
+}
+.btn{
+    background-color: #F39A99;
+    border: 5px solid #E49190;
+    border-radius: 20px;
+    outline: none;
+    width: auto;
+    text-decoration: none;
+    height: 50px;
+    margin: 0;
+    padding: 0 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "milky nice", sans-serif;
+    font-size: 1em;
+    cursor: pointer;
+    color: whitesmoke;
+    text-transform: uppercase;
+    transition: all .3s ease-in-out;
+}
+.btn.modif{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
 }

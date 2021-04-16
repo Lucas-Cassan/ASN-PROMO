@@ -12,6 +12,8 @@
  {% endblock %}
 {% block body %}
 <form action="{{ path('create_game') }}" method="post" id="formNewGame">
+    <img class="imgForm mamie2" src="{{ asset('img/items/mamie1.svg') }}" alt="Mamie 1">
+    <img class="imgForm mamie1" src="{{ asset('img/items/mamie2.svg') }}" alt="Mamie 2">
 
         <label for="user2">Choisi ton adversaire</label>
         <div class="inputDate">
@@ -23,7 +25,7 @@
         </div>
 
 
-    <button type="submit">JOUER !</button>
+    <button class="btn submit" type="submit">JOUER !</button>
 
 </form>
 {% endblock %}
